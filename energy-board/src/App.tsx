@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { CurrentFuelUsage } from './JSON-Objects/CurrentFuelUsage';
+import { PieChart } from './components/PieChart';
+import { currentFuelUsageToPieChartData } from './mapper';
 
 function displayArray(title : string, data : string[]){
   console.log(data.length);
@@ -28,16 +30,31 @@ function displayArray(title : string, data : string[]){
   }
 }
 
-function App3() {
+function App() {
 
-  function getAllData() {
-    
+  // function getAllData() {
+
+  // }
+
+  const [data, setData] = useState(null);
+
+  function handleClick() {
+    const xhr = new XMLHttpRequest();
+    //xhr.open('GET', 'https://data.dev.elexon.co.uk/bmrs/api/v1/reference/fueltypes/all');
+    xhr.open('GET', 'https://data.dev.elexon.co.uk/bmrs/api/v1/generation/outturn/FUELINSTHHCUR');
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        setData(JSON.parse(xhr.responseText));
+      }
+    };
+    xhr.send();
   }
 
 
   return (
     <div className="main">
-      <button onClick={getAllData}>Get Data</button>
+      <button onClick={handleClick}>Get Data</button>
+      {data && <PieChart title="Breakdown of fuel type" data={currentFuelUsageToPieChartData(data)}/>}
     </div>
   );
   
@@ -63,9 +80,9 @@ function GetAllFuelTypes() {
       {<div>{data == null ? "" : displayArray("Fuel types", data)}</div>}
     </div>
   );
-}
+    }
 
-function App() {
+function App3() {
   const [outputs, setOutputs] = useState(null);
 
   function handleClick() {
