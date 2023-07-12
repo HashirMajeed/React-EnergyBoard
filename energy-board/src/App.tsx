@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { CurrentFuelUsage } from './JSON-Objects/CurrentFuelUsage';
 
 function displayArray(title : string, data : string[]){
   console.log(data.length);
@@ -27,8 +28,22 @@ function displayArray(title : string, data : string[]){
   }
 }
 
-function App() {
+function App3() {
 
+  function getAllData() {
+    
+  }
+
+
+  return (
+    <div className="main">
+      <button onClick={getAllData}>Get Data</button>
+    </div>
+  );
+  
+}
+
+function GetAllFuelTypes() {
   const [data, setData] = useState(null);
 
   function handleClick() {
@@ -46,6 +61,31 @@ function App() {
     <div className="main">
       <button onClick={handleClick}>Get Data</button>
       {<div>{data == null ? "" : displayArray("Fuel types", data)}</div>}
+    </div>
+  );
+}
+
+function App() {
+  const [outputs, setOutputs] = useState(null);
+
+  function handleClick() {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://data.dev.elexon.co.uk/bmrs/api/v1/generation/outturn/FUELINSTHHCUR');
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        setOutputs(JSON.parse(xhr.responseText));
+      }
+    };
+    xhr.send();
+  }
+  //var PowerOutput : CurrentFuelUsage = new CurrentFuelUsage();
+  var newTodo : CurrentFuelUsage | null;
+  newTodo = outputs;
+  console.log(newTodo);
+  return (
+    <div className="main">
+      <button onClick={handleClick}>Get Data</button>
+      
     </div>
   );
 }
