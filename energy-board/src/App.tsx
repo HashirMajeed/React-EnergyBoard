@@ -2,6 +2,31 @@ import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+function displayArray(title : string, data : string[]){
+  console.log(data.length);
+  if (data == null){
+    return (<div>No data found</div>)
+  }
+  else{
+    return(
+      <table>
+        <thead>
+          <tr>
+              <th>
+                  <h3>{title}</h3>
+              </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+          {data.map(item => <tr>{item}</tr>)}
+          </tr>
+        </tbody>
+      </table>
+    );
+  }
+}
+
 function App() {
 
   const [data, setData] = useState(null);
@@ -18,9 +43,9 @@ function App() {
   }
 
   return (
-    <div>
+    <div className="main">
       <button onClick={handleClick}>Get Data</button>
-      {data ? <div>{JSON.stringify(data)}</div> : <div>Loading...</div>}
+      {<div>{data == null ? "" : displayArray("Fuel types", data)}</div>}
     </div>
   );
 }
