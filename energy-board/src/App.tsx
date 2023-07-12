@@ -1,24 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
 function App() {
+
+  const [data, setData] = useState(null);
+
+  function handleClick() {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', 'https://data.dev.elexon.co.uk/bmrs/api/v1/reference/fueltypes/all');
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        setData(JSON.parse(xhr.responseText));
+      }
+    };
+    xhr.send();
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <button onClick={handleClick}>Get Data</button>
+      {data ? <div>{JSON.stringify(data)}</div> : <div>Loading...</div>}
     </div>
   );
 }
