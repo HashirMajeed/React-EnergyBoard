@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import { CurrentFuelUsage } from './interfaces/CurrentFuelUsage';
 import { PieChart } from './components/PieChart';
-import { currentFuelUsageToPieChartData } from './mapper/currentFuelUsageMapper';
+import { currentFuelUsageToPieChartData, currentFuelUsageToCategorisedPieChartData } from './mapper/currentFuelUsageMapper';
 
 function displayArray(title : string, data : string[]){
   console.log(data.length);
@@ -41,7 +41,11 @@ function App() {
   //     <div>{getAllFuelTypes()}</div>
   //   </div>
   // );
-  return (<div></div>);
+  return (
+  <div>
+    <PieChart title="Breakdown by category" data={currentFuelUsageToPieChartData()} />
+  </div>
+  );
 }
 
 

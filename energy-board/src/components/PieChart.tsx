@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { CurrentFuelUsage } from "../interfaces/CurrentFuelUsage";
 import { Chart } from "react-google-charts";
 
@@ -8,6 +9,10 @@ interface Props {
 
 export const PieChart : React.FC<Props> = ({title, data}) => 
 {
+    const [chartData,setChartData] = useState(null);
+
+    // setChartData(data);
+
     const options = {
         title: title,
     };
