@@ -9,12 +9,9 @@ interface Props {
 
 export const PieChart : React.FC<Props> = ({title, data}) => 
 {
-    const [chartData,setChartData] = useState(null);
-
-    // setChartData(data);
-
     const options = {
         title: title,
+        backgroundColor: 'transparent'
     };
 
     return (
@@ -22,8 +19,8 @@ export const PieChart : React.FC<Props> = ({title, data}) =>
           chartType="PieChart"
           data={data}
           options={options}
-          width={"100%"}
-          height={"400px"}
+          width="100%"
+          height="100%"
         />
       );
 }

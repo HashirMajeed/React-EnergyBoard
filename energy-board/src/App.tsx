@@ -1,49 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { CurrentFuelUsage } from './interfaces/CurrentFuelUsage';
 import { PieChart } from './components/PieChart';
-import { currentFuelUsageToPieChartData, currentFuelUsageToCategorisedPieChartData } from './mapper/currentFuelUsageMapper';
+import { currentFuelUsageToPieChartData, currentFuelUsageToCategorisedPieChartData, currentFuelUsageToCategorisedPieChartDataRaw } from './mapper/currentFuelUsageMapper';
+import { ListData } from './components/ListData';
+import { Header } from './components/Header';
 
-function displayArray(title : string, data : string[]){
-  console.log(data.length);
-  if (data == null){
-    return (<div>No data found</div>)
-  }
-  else{
-    return(
-      <table>
-        <thead>
-          <tr>
-              <th>
-                  <h3>{title}</h3>
-              </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-          {data.map(item => <tr>{item}</tr>)}
-          </tr>
-        </tbody>
-      </table>
-    );
-  }
-}
 
 
 function App() {
+  var x : CurrentFuelUsage[] = [];
+  const [listData, setListData] = useState([]);
+  const [chartData, setChartData] = useState(x);
 
-  // var x = [getFuelDataByTypes(), getAllFuelTypes()];
+  useEffect(() => {
+    const xhr = new XMLHttpRequest();
+    //xhr.open('GET', 'https://data.dev.elexon.co.uk/bmrs/api/v1/reference/fueltypes/all');
+    xhr.open('GET', 'https://data.dev.elexon.co.uk/bmrs/api/v1/generation/outturn/FUELINSTHHCUR');
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        setChartData(JSON.parse(xhr.responseText));
+      }
+    };
+    xhr.send();
 
-  // return (
-  //   <div className="main">
-  //     <div>{getFuelDataByTypes()}</div>
-  //     <div>{getAllFuelTypes()}</div>
-  //   </div>
-  // );
+    const xhr1 = new XMLHttpRequest();
+    xhr1.open('GET', 'https://data.dev.elexon.co.uk/bmrs/api/v1/reference/fueltypes/all');
+    xhr1.onload = function() {
+      if (xhr1.status === 200) {
+        setListData(JSON.parse(xhr1.responseText));
+      }
+    };
+    xhr1.send();
+  });
+
+  var myData : any = chartData.slice();
+  var PieChartData : (string | number)[][] = chartData.map(item => [item.fuelType, item.currentUsage]);
+  PieChartData.unshift(["Fuel Type", "Current Usage"]);
+
   return (
-  <div>
-    <PieChart title="Breakdown by category" data={currentFuelUsageToPieChartData()} />
+  <div className="main">
+    <Header />
+    <div className="tilebackground">
+      <div className="tileforeground">
+        <PieChart title="Breakdown by fuel type" data={PieChartData} />
+      </div>
+    </div>
+    <div className="tilebackground">
+      <div className="tileforeground">
+        <ListData title="List of fuel types" data={listData} />
+      </div>
+    </div>
+    <div className="tilebackground">
+      <div className="tileforeground">
+        <PieChart title="Breakdown by category" data={currentFuelUsageToCategorisedPieChartDataRaw(myData)} />
+      </div>
+    </div>
   </div>
   );
 }

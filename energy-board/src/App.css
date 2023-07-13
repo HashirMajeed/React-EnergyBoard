@@ -36,3 +36,55 @@
     transform: rotate(360deg);
   }
 }
+
+.main{
+
+  background-color: #a7c1eb;
+  padding: 10px;
+  width: 100vw;
+  min-height: 100vh;
+  /*float: left;
+  /* justify-content: space-evenly; */
+
+}
+
+.tilebackground{
+  display: inline-block;
+  vertical-align: top;
+  z-index: -1;
+  background-color:rgba(255, 255, 255, 0.3);
+  padding: 25px;
+  border-radius: 5px;
+  /* width: 450px;
+  height: 450px; */
+  width: 29vw;
+  height: 29vw;
+  margin: 10px;
+}
+
+.tileforeground{
+  z-index: 100;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 5px;
+  width: 29vw;
+  height: 29vw;
+}
+
+.list{
+  margin-left: 20px;
+  list-style-type: square
+}
+
+.heading{
+  font-weight: bold;
+  padding: 10px;
+  /* margin-left: 10px;
+  margin-bottom: 5px */
+}
+
+.title{
+  font-size: 5vh;
+  text-align: center;
+  font-weight: bold;
+  padding: 10px;
+}
