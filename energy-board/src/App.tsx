@@ -6,13 +6,19 @@ import { PieChart } from './components/PieChart';
 import { currentFuelUsageToPieChartData, currentFuelUsageToCategorisedPieChartData, currentFuelUsageToCategorisedPieChartDataRaw } from './mapper/currentFuelUsageMapper';
 import { ListData } from './components/ListData';
 import { Header } from './components/Header';
+import { dailyMetadata } from './interfaces/dailyMetadata';
+import { ComboChart } from './components/ComboChart';
+import {fourteenDayUsageToComboChart} from './mapper/fourteenDayForecastMapper';
+import { DailyUsage } from './interfaces/dailyUsage';
 
 
 
 function App() {
   var x : CurrentFuelUsage[] = [];
+  var combo : DailyUsage[] = []
   const [listData, setListData] = useState([]);
   const [chartData, setChartData] = useState(x);
+  const [comboData, setComboData] = useState(combo);
 
   useEffect(() => {
     const xhr = new XMLHttpRequest();
@@ -33,6 +39,15 @@ function App() {
       }
     };
     xhr1.send();
+
+    const xhr2 = new XMLHttpRequest();
+    xhr2.open('GET', 'https://data.dev.elexon.co.uk/bmrs/api/v1/generation/availability/summary/14D');
+    xhr2.onload = function() {
+      if (xhr2.status === 200) {
+        setComboData(JSON.parse(xhr2.responseText));
+      }
+    };
+    xhr2.send();
   });
 
   var myData : any = chartData.slice();
@@ -56,6 +71,9 @@ function App() {
       <div className="tileforeground">
         <PieChart title="Breakdown by category" data={currentFuelUsageToCategorisedPieChartDataRaw(myData)} />
       </div>
+    </div>
+    <div>
+      <ComboChart title="TITLE" vAxisName='Power/GW' hAxisName='Time' data={fourteenDayUsageToComboChart(comboData, listData)} ></ComboChart>
     </div>
   </div>
   );
