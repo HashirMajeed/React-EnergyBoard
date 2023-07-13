@@ -40,8 +40,9 @@ function App() {
   PieChartData.unshift(["Fuel Type", "Current Usage"]);
 
   return (
-  <div className="main">
+  <div>
     <Header />
+    <div className="main">
     <div className="tilebackground">
       <div className="tileforeground">
         <PieChart title="Breakdown by fuel type" data={PieChartData} />
@@ -57,6 +58,7 @@ function App() {
         <PieChart title="Breakdown by category" data={currentFuelUsageToCategorisedPieChartDataRaw(myData)} />
       </div>
     </div>
+  </div>
   </div>
   );
 }
