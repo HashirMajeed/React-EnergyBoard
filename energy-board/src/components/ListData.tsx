@@ -14,11 +14,13 @@ export const ListData : React.FC<Props> = ({title, data}) =>
   }
   else{
     return(
-          <div>
+          <div className="tilebackground">
+          <div className="tileforeground">
             <div className="heading">{title}</div>
               <div className="list">
               {data.map(item => <li>{item}</li>)}
               </div>
+          </div>
           </div>
     );
   }

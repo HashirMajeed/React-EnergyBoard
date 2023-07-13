@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import { CurrentFuelUsage } from './interfaces/CurrentFuelUsage';
 import { PieChart } from './components/PieChart';
-import { currentFuelUsageToPieChartData, currentFuelUsageToCategorisedPieChartData, currentFuelUsageToCategorisedPieChartDataRaw } from './mapper/currentFuelUsageMapper';
+import { currentFuelUsageToCategorisedPieChartDataRaw } from './mapper/currentFuelUsageMapper';
 import { ListData } from './components/ListData';
 import { Header } from './components/Header';
 
@@ -13,6 +13,7 @@ function App() {
   var x : CurrentFuelUsage[] = [];
   const [listData, setListData] = useState([]);
   const [chartData, setChartData] = useState(x);
+  const [lineData, setLineData] = useState()
 
   useEffect(() => {
     const xhr = new XMLHttpRequest();
@@ -33,6 +34,15 @@ function App() {
       }
     };
     xhr1.send();
+
+    const xhr3 = new XMLHttpRequest();
+    xhr3.open('GET', 'https://data.dev.elexon.co.uk/bmrs/api/v1/generation/availability/summary/3YW');
+    xhr3.onload = function() {
+      if (xhr3.status === 200) {
+        setListData(JSON.parse(xhr3.responseText));
+      }
+    };
+    xhr3.send();
   });
 
   var myData : any = chartData.slice();
@@ -43,22 +53,10 @@ function App() {
   <div>
     <Header />
     <div className="main">
-    <div className="tilebackground">
-      <div className="tileforeground">
         <PieChart title="Breakdown by fuel type" data={PieChartData} />
-      </div>
-    </div>
-    <div className="tilebackground">
-      <div className="tileforeground">
         <ListData title="List of fuel types" data={listData} />
-      </div>
-    </div>
-    <div className="tilebackground">
-      <div className="tileforeground">
         <PieChart title="Breakdown by category" data={currentFuelUsageToCategorisedPieChartDataRaw(myData)} />
-      </div>
     </div>
-  </div>
   </div>
   );
 }

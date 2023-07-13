@@ -21,14 +21,6 @@ export function currentFuelUsageToCategorisedPieChartData(){
     var interconnectorQuantity : number = 0;
     var otherQuantity : number = 0;
 
-    var PieChartData : (string | number)[][] =[
-        ["Fuel Category", "Current Usage"],
-        ["Carbon", carbonQuantity],
-        ["Renewable", renewableQuantity],
-        ["Interconnector", interconnectorQuantity],
-        ["Other", otherQuantity]
-    ];
-
     for (var i = 0; i < chartData.length ; i++){
         if (carbonFuelTypes.includes(chartData[i].fuelType)){
             carbonQuantity += chartData[i].currentUsage;
@@ -39,10 +31,20 @@ export function currentFuelUsageToCategorisedPieChartData(){
         if (interconnectorFuelTypes.includes(chartData[i].fuelType)){
             interconnectorQuantity += chartData[i].currentUsage;
         }
-        else{
+        if (otherFuelTypes.includes(chartData[i].fuelType)){
             otherQuantity += chartData[i].currentUsage;
         }
     }
+
+    var PieChartData : (string | number)[][] =[
+        ["Fuel Category", "Current Usage"],
+        ["Carbon", carbonQuantity],
+        ["Renewable", renewableQuantity],
+        ["Interconnector", interconnectorQuantity],
+        ["Other", otherQuantity]
+    ];
+
+    console.log(PieChartData);
 
     return PieChartData;
 }
@@ -51,9 +53,11 @@ export function currentFuelUsageToCategorisedPieChartDataRaw(chartData : Current
 
     console.log(chartData);
 
+
     var carbonFuelTypes : string[] = ["CCGT","COAL","OCGT","OIL"];
     var renewableFuelTypes : string[] = ["BIOMASS", "NPSHYD","WIND","PS"];
     var interconnectorFuelTypes : string[] = ["INTELEC", "INTEW", "INTFR", "INTIFA2", "INTIRL", "INTNED", "INTNEM", "INTNSL","INTVKL"];
+    var otherFuelTypes : string[] = ["NUCLEAR","OTHER"];
 
     var carbonQuantity : number = 0;
     var renewableQuantity : number = 0;
@@ -71,7 +75,7 @@ export function currentFuelUsageToCategorisedPieChartDataRaw(chartData : Current
         if (interconnectorFuelTypes.includes(chartData[i].fuelType)){
             interconnectorQuantity += chartData[i].currentUsage;
         }
-        else{
+        if (otherFuelTypes.includes(chartData[i].fuelType)){
             otherQuantity += chartData[i].currentUsage;
         }
     }
@@ -83,6 +87,6 @@ export function currentFuelUsageToCategorisedPieChartDataRaw(chartData : Current
         ["Interconnector", interconnectorQuantity],
         ["Other", otherQuantity]
     ];
-    
+
     return PieChartData;
 }
