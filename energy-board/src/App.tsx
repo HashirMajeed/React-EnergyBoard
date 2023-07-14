@@ -10,15 +10,24 @@ import { dailyMetadata } from './interfaces/dailyMetadata';
 import { ComboChart } from './components/ComboChart';
 import {fourteenDayUsageToComboChart} from './mapper/fourteenDayForecastMapper';
 import { DailyUsage } from './interfaces/dailyUsage';
+import { FourteenDayHistory } from './interfaces/FourteenDayHistory';
+import { LineChart } from './components/LineChart';
+import { fourteenDayHistoryToLineChart } from './mapper/fourteenDayHistoryMapper';
 
 
 
 function App() {
   var x : CurrentFuelUsage[] = [];
-  var combo : DailyUsage[] = []
+  var combo : DailyUsage[] = [];
+  var historyData : FourteenDayHistory = {
+    data : [],
+      metadata : { datasets : []},
+      
+    };
   const [listData, setListData] = useState([]);
   const [chartData, setChartData] = useState(x);
   const [comboData, setComboData] = useState(combo);
+  const [lineData, setLineData] = useState(historyData);
 
   useEffect(() => {
     const xhr = new XMLHttpRequest();
@@ -48,7 +57,22 @@ function App() {
       }
     };
     xhr2.send();
-  });
+    console.log("hfdgfkhdbfwj");
+
+
+    const xhr4 = new XMLHttpRequest();
+    xhr4.open('GET', 'https://data.dev.elexon.co.uk/bmrs/api/v1/forecast/availability/daily/history?publishTime=2023-07-14T09%3A01%3A35.076Z');
+    xhr4.onload = function() {
+      if (xhr4.status === 200) {
+        console.log("found");
+        setLineData(JSON.parse(xhr4.responseText));
+      }
+    };
+    xhr4.send();
+
+
+  }, []);
+
 
   var myData : any = chartData.slice();
   var PieChartData : (string | number)[][] = chartData.map(item => [item.fuelType, item.currentUsage]);
@@ -74,6 +98,9 @@ function App() {
     </div>
     <div>
       <ComboChart title="TITLE" vAxisName='Power/GW' hAxisName='Time' data={fourteenDayUsageToComboChart(comboData, listData)} ></ComboChart>
+    </div>
+    <div>
+      <LineChart title="Fourteen day forecast" data={fourteenDayHistoryToLineChart(lineData)} />
     </div>
   </div>
   );
