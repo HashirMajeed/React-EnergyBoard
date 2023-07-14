@@ -53,6 +53,7 @@ export function currentFuelUsageToCategorisedPieChartDataRaw(chartData : Current
     var carbonFuelTypes : string[] = ["CCGT","COAL","OCGT","OIL"];
     var renewableFuelTypes : string[] = ["BIOMASS", "NPSHYD","WIND","PS"];
     var interconnectorFuelTypes : string[] = ["INTELEC", "INTEW", "INTFR", "INTIFA2", "INTIRL", "INTNED", "INTNEM", "INTNSL","INTVKL"];
+    var otherFuelTypes : string[] = ["NUCLEAR","OTHER"];
 
     var carbonQuantity : number = 0;
     var renewableQuantity : number = 0;
@@ -69,7 +70,7 @@ export function currentFuelUsageToCategorisedPieChartDataRaw(chartData : Current
         if (interconnectorFuelTypes.includes(chartData[i].fuelType)){
             interconnectorQuantity += chartData[i].currentUsage;
         }
-        else{
+        if (otherFuelTypes.includes(chartData[i].fuelType)){
             otherQuantity += chartData[i].currentUsage;
         }
     }
