@@ -14,6 +14,7 @@ export const ComboChart : React.FC<Props> = ({title, vAxisName, hAxisName, data}
         vAxis: {title: vAxisName},
         hAxis: {title: hAxisName},
         seriesType: "bars",
+        backgroundColor: 'transparent',
         series: {17: {type: "line"}},
     };
 

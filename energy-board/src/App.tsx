@@ -103,26 +103,30 @@ function App() {
         <PieChart title="Breakdown by category" data={currentFuelUsageToCategorisedPieChartDataRaw(myData)} />
       </div>
     </div>
-    <div>
+    <div className="tilebackgroundcombo">
+      <div className="tileforegroundcombo">
+      <div className='combochart'>
       <ComboChart title="14 Day Forecast" vAxisName='Power/GW' hAxisName='Time' data={fourteenDayUsageToComboChart(comboData, listData)} />
+    </div>
+      </div>
     </div>
     <div className="tilebackgroundgauge">
       <div className="tileforegroundgauge">
         <div className='gauge'>
-        <Gauge data={currentFuelUsageToCategorisedPieChartDataRaw(myData).filter(x => x[0] == "Carbon")[0][1]} width={400} height={120} redFrom={90} redTo={100} yellowFrom={75} yellowTo={90} minorTicks={5} />
+        <Gauge data={currentFuelUsageToCategorisedPieChartDataRaw(myData).filter(x => x[0] == "Carbon")[0][1]} width={1000} height={500} redFrom={90} redTo={100} yellowFrom={75} yellowTo={90} minorTicks={5} />
         </div>
       </div>
     </div>
     <div className="tilebackground">
       <div className="tileforeground">
         <h2>Alert Boss to Climate Change</h2>
-      <form onSubmit={sendEmail}>
+        <div className='climateform'><form onSubmit={sendEmail}>
         <label>Boss Name</label>
         <input type='text' name="user_name" required></input>
         <label>Message</label>
         <input type='text' name='message' required></input>
         <input type='submit' value="Send"></input>
-      </form>
+      </form></div>
       </div>
       </div>
   </div>
