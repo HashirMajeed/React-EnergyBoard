@@ -17,17 +17,19 @@ export const LineChart : React.FC<Props> = ({title, data}) =>
     }
 
     return (
-        <div className="tilebackground">
-        <div className="tileforeground">
-        <div className="heading">Generation of Energy</div>    
+      <div>
+        {/* // <div className="tilebackground">
+        // <div className="tileforeground"> */}
+        {/* <div className="heading">Generation of Energy</div>     */}
         <Chart
           chartType="LineChart"
           data={data}
           options={options}
           width="100%"
-          height="100%"
+          height="900px"
         />
-        </div>
+        {/* // </div>
+        // </div> */}
         </div>
       );
 }

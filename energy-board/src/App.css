@@ -70,6 +70,28 @@
   height: 29vw;
 }
 
+.tilebackgroundx2{
+  display: inline-block;
+  vertical-align: top;
+  z-index: -1;
+  background-color:rgba(255, 255, 255, 0.3);
+  padding: 25px;
+  border-radius: 5px;
+  /* width: 450px;
+  height: 450px; */
+  width: 60.3vw;
+  height: 29vw;
+  margin: 10px;
+}
+
+.tileforegroundx2{
+  z-index: 100;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 5px;
+  width: 60.3vw;
+  height: 29vw;
+}
+
 .tilebackgroundgauge {
   display: inline-block;
   vertical-align: top;
@@ -140,6 +162,18 @@
   padding: 10px;
   /* margin-left: 10px;
   margin-bottom: 5px */
+}
+
+.sized{
+  margin-left: 10px;
+  width: 200px;
+  height: 30px;
+}
+
+.forminput{
+  display: block;
+  padding: 10px;
+  font-size: 22px;
 }
 
 h2 {

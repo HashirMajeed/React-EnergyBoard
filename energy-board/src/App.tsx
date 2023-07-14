@@ -141,15 +141,20 @@ function App() {
       <div className="tileforegroundcombo">
       <div className='combochart'>
       <ComboChart title="14 Day Forecast" vAxisName='Power/GW' hAxisName='Time' data={fourteenDayUsageToComboChart(comboData, listData)} />
-    </div>
-    <div className='tilebackground'>
-      <div className='tileforeground'>
-        <text>Enter the date in the form YYYY-MM-DD</text>
-        <input onChange={getNewLineData}></input>
-        <LineChart title="Fourteen day forecast" data={fourteenDayHistoryToLineChart(lineData)} />
-        </div>     
-    </div>
       </div>
+      </div>
+    </div>
+
+    <div className='tilebackgroundcombo'>
+      <div className='tileforegroundcombo'>
+        <div className='forminput'>
+          <text className='forminput'>Enter the date in the form YYYY-MM-DD</text>
+          <input className='sized' onChange={getNewLineData}></input>
+        </div>
+        <div className='combochart'>
+        <LineChart title="Fourteen day forecast" data={fourteenDayHistoryToLineChart(lineData)} />
+        </div>
+        </div>     
     </div>
     <div className="tilebackgroundgauge">
       <div className="tileforegroundgauge">
@@ -158,8 +163,8 @@ function App() {
         </div>
       </div>
     </div> 
-    <div className="tilebackground">
-      <div className="tileforeground">
+    <div className="tilebackgroundx2">
+      <div className="tileforegroundx2">
         <div className='heading'>Alert Boss to Climate Change</div>
 
         <div className="container">
@@ -172,7 +177,7 @@ function App() {
           </form>
         </div>
       </div>
-        </div>  
+      </div> 
       </div>
   );
 }
