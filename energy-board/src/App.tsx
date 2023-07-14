@@ -14,6 +14,9 @@ import { Gauge } from './components/Gauge';
 import { EmailJSResponseStatus } from '@emailjs/browser';
 // import emailjs from 'emailjs-com';
 import emailjs from '@emailjs/browser';
+import { FourteenDayHistory } from './interfaces/FourteenDayHistory';
+import { LineChart } from './components/LineChart';
+import { fourteenDayHistoryToLineChart } from './mapper/fourteenDayHistoryMapper';
 
 
 
@@ -23,6 +26,12 @@ function App() {
   const [listData, setListData] = useState([]);
   const [chartData, setChartData] = useState(x);
   const [comboData, setComboData] = useState(combo);
+  var historyData : FourteenDayHistory = {
+    data : [],
+      metadata : { datasets : []},
+
+    };
+  const [lineData, setLineData] = useState(historyData);
   const form = useRef();
 
   useEffect(() => {
@@ -53,7 +62,18 @@ function App() {
       }
     };
     xhr2.send();
-  });
+
+    const xhr4 = new XMLHttpRequest();
+    xhr4.open('GET', 'https://data.dev.elexon.co.uk/bmrs/api/v1/forecast/availability/daily/history?publishTime=2023-07-14T09%3A01%3A35.076Z');
+    xhr4.onload = function() {
+      if (xhr4.status === 200) {
+        setLineData(JSON.parse(xhr4.responseText));
+      }
+    };
+    xhr4.send();
+
+
+  }, []);
 
   var myData : any = chartData.slice();
   var PieChartData : (string | number)[][] = chartData.map(item => [item.fuelType, item.currentUsage]);
@@ -84,6 +104,20 @@ function App() {
       });
   }
 
+  function getNewLineData(date : any) {
+    date.preventDefault();
+    const xhr4 = new XMLHttpRequest();
+    console.log(date.target.value);
+    var url = 'https://data.dev.elexon.co.uk/bmrs/api/v1/forecast/availability/daily/history?publishTime=';
+    xhr4.open('GET', url + date.target.value + 'T09%3A01%3A35.076Z');
+    xhr4.onload = function() {
+      if (xhr4.status === 200) {
+        setLineData(JSON.parse(xhr4.responseText));
+      }
+    };
+    xhr4.send();
+  }
+
 
   return (
   <div className="main">
@@ -108,6 +142,13 @@ function App() {
       <div className='combochart'>
       <ComboChart title="14 Day Forecast" vAxisName='Power/GW' hAxisName='Time' data={fourteenDayUsageToComboChart(comboData, listData)} />
     </div>
+    <div className='tilebackground'>
+      <div className='tileforeground'>
+        <text>Enter the date in the form YYYY-MM-DD</text>
+        <input onChange={getNewLineData}></input>
+        <LineChart title="Fourteen day forecast" data={fourteenDayHistoryToLineChart(lineData)} />
+        </div>     
+    </div>
       </div>
     </div>
     <div className="tilebackgroundgauge">
@@ -116,7 +157,7 @@ function App() {
         <Gauge data={currentFuelUsageToCategorisedPieChartDataRaw(myData).filter(x => x[0] == "Carbon")[0][1]} width={550} height={550} redFrom={90} redTo={100} yellowFrom={75} yellowTo={90} minorTicks={5} />
         </div>
       </div>
-    </div>
+    </div> 
     <div className="tilebackground">
       <div className="tileforeground">
         <div className='heading'>Alert Boss to Climate Change</div>
