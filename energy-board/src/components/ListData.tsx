@@ -8,7 +8,6 @@ interface Props {
 
 export const ListData : React.FC<Props> = ({title, data}) => 
   {
-  console.log(data.length);
   if (data == null){
     return (<div>No data found</div>)
   }

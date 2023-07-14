@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { CurrentFuelUsage } from './interfaces/CurrentFuelUsage';
@@ -10,6 +10,10 @@ import { dailyMetadata } from './interfaces/dailyMetadata';
 import { ComboChart } from './components/ComboChart';
 import {fourteenDayUsageToComboChart} from './mapper/fourteenDayForecastMapper';
 import { DailyUsage } from './interfaces/dailyUsage';
+import { Gauge } from './components/Gauge';
+import { EmailJSResponseStatus } from '@emailjs/browser';
+// import emailjs from 'emailjs-com';
+import emailjs from '@emailjs/browser';
 
 
 
@@ -19,6 +23,7 @@ function App() {
   const [listData, setListData] = useState([]);
   const [chartData, setChartData] = useState(x);
   const [comboData, setComboData] = useState(combo);
+  const form = useRef();
 
   useEffect(() => {
     const xhr = new XMLHttpRequest();
@@ -54,6 +59,32 @@ function App() {
   var PieChartData : (string | number)[][] = chartData.map(item => [item.fuelType, item.currentUsage]);
   PieChartData.unshift(["Fuel Type", "Current Usage"]);
 
+  // const sendEmail() = (e) => {
+  //   e.preventDefault();
+  
+  //   emailjs.send(
+  //     "service_t2ntb2r",
+  //     "template_sd292ql",
+  //     form.current,
+  //     "emeqgm_vaepTreeg4"
+  //   ).then(
+  //     result => console.log(result.text),
+  //     error => console.log(error.text)
+  //   );
+  // };
+
+  function sendEmail(e : any) {
+    e.preventDefault();
+
+    emailjs.sendForm('service_t2ntb2r', 'template_sd292ql', e.target, 'emeqgm_vaepTreeg4')
+      .then((result) => {
+          console.log(result.text);
+      }, (error) => {
+          console.log(error.text);
+      });
+  }
+
+
   return (
   <div className="main">
     <Header />
@@ -73,11 +104,31 @@ function App() {
       </div>
     </div>
     <div>
-      <ComboChart title="TITLE" vAxisName='Power/GW' hAxisName='Time' data={fourteenDayUsageToComboChart(comboData, listData)} ></ComboChart>
+      <ComboChart title="14 Day Forecast" vAxisName='Power/GW' hAxisName='Time' data={fourteenDayUsageToComboChart(comboData, listData)} />
     </div>
+    <div className="tilebackgroundgauge">
+      <div className="tileforegroundgauge">
+        <div className='gauge'>
+        <Gauge data={currentFuelUsageToCategorisedPieChartDataRaw(myData).filter(x => x[0] == "Carbon")[0][1]} width={400} height={120} redFrom={90} redTo={100} yellowFrom={75} yellowTo={90} minorTicks={5} />
+        </div>
+      </div>
+    </div>
+    <div className="tilebackground">
+      <div className="tileforeground">
+        <h2>Alert Boss to Climate Change</h2>
+      <form onSubmit={sendEmail}>
+        <label>Boss Name</label>
+        <input type='text' name="user_name" required></input>
+        <label>Message</label>
+        <input type='text' name='message' required></input>
+        <input type='submit' value="Send"></input>
+      </form>
+      </div>
+      </div>
   </div>
   );
 }
+
 
 
 export default App;
