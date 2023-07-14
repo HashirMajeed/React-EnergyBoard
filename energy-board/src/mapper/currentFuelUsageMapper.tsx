@@ -49,7 +49,6 @@ export function currentFuelUsageToCategorisedPieChartData(){
 
 export function currentFuelUsageToCategorisedPieChartDataRaw(chartData : CurrentFuelUsage[] ){
 
-    console.log(chartData);
 
     var carbonFuelTypes : string[] = ["CCGT","COAL","OCGT","OIL"];
     var renewableFuelTypes : string[] = ["BIOMASS", "NPSHYD","WIND","PS"];
@@ -62,7 +61,6 @@ export function currentFuelUsageToCategorisedPieChartDataRaw(chartData : Current
 
     for (var i = 0; i < chartData.length ; i++){
         if (carbonFuelTypes.includes(chartData[i].fuelType)){
-            console.log("HI");
             carbonQuantity += chartData[i].currentUsage;
         }
         if (renewableFuelTypes.includes(chartData[i].fuelType)){

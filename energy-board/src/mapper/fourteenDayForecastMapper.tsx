@@ -6,8 +6,9 @@ export function fourteenDayUsageToComboChart(chartData : DailyUsage[], allFuelTy
     var fuels : string[] = [...allFuelTypes];
     fuels.unshift("Month");
     fuels.push("Average");
+    fuels = fuels.filter(x => x != "INTVKL" && x != "OIL");
     var comboData : (string | number)[][] = [
-        allFuelTypes
+        fuels
     ];
 
 
