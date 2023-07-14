@@ -14,16 +14,21 @@ export const ComboChart : React.FC<Props> = ({title, vAxisName, hAxisName, data}
         vAxis: {title: vAxisName},
         hAxis: {title: hAxisName},
         seriesType: "bars",
-        series: {16: {type: "line"}},
+        series: {17: {type: "line"}},
+        backgroundColor: "transparent"
     };
 
     return (
+      <div className="fulltilebackground">
+      <div className="fulltileforeground">
         <Chart
           chartType="ComboChart"
           data={data}
           options={options}
-          width="100%"
-          height="1000px"
+          width="87vw"
+          height="450px"
         />
+      </div>
+      </div>
       );
 }

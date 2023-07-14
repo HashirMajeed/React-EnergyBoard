@@ -97,10 +97,10 @@ function App() {
       </div>
     </div>
     <div>
-      <ComboChart title="TITLE" vAxisName='Power/GW' hAxisName='Time' data={fourteenDayUsageToComboChart(comboData, listData)} ></ComboChart>
+      <ComboChart title="Fourteen Day Generation Forecast" vAxisName='Power/GW' hAxisName='Time' data={fourteenDayUsageToComboChart(comboData, listData)} ></ComboChart>
     </div>
     <div>
-      <LineChart title="Fourteen day forecast" data={fourteenDayHistoryToLineChart(lineData)} />
+      <LineChart title="Fourteen Day Generation Forecast From Specified Date" data={fourteenDayHistoryToLineChart(lineData)}  vAxis="Power/GW" hAxis=""/>
     </div>
   </div>
   );

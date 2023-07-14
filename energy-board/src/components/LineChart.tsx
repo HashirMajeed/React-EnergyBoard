@@ -3,13 +3,17 @@ import { Chart } from "react-google-charts";
 interface Props {
     title : string;
     data : (string | number)[][];
+    vAxis : string;
+    hAxis: string;
 }
 
-export const LineChart : React.FC<Props> = ({title, data}) => 
+export const LineChart : React.FC<Props> = ({title, data, vAxis, hAxis}) => 
 {
     const options = {
         title: title,
-        backgroundColor: 'transparent'
+        backgroundColor: 'transparent',
+        vAxis: { title: vAxis},
+        hAxis: { title : hAxis}
     };
 
     console.log(data);

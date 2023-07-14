@@ -48,6 +48,31 @@
 
 }
 
+.fulltilebackground{
+  display: inline-block;
+  vertical-align: top;
+  z-index: -1;
+  background-color:rgba(255, 255, 255, 0.3);
+  padding: 25px;
+  border-radius: 5px;
+  width: 94.3vw;
+  /* width: 450px;
+  height: 450px; */
+  height: 450px;
+  margin: 10px;
+}
+
+.fulltileforeground{
+  z-index: 100;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 5px;
+  /* width: 100vw;
+  margin: 10px;
+  height: 450px; */
+  /* width: 29vw;
+  height: 29vw; */
+}
+
 .tilebackground{
   display: inline-block;
   vertical-align: top;
@@ -57,8 +82,8 @@
   border-radius: 5px;
   /* width: 450px;
   height: 450px; */
-  width: 29vw;
-  height: 29vw;
+  /* width: 29vw;
+  height: 29vw; */
   margin: 10px;
 }
 
